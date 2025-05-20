@@ -4,3 +4,8 @@
   register: snapshot_list
   become: true
   changed_when: false
+
+- name: 🗂 Ensure docs/ directory exists
+  file:
+    path: "{{ playbook_dir }}/../docs"
+    state: directory
