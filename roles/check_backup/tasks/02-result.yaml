@@ -1,0 +1,9 @@
+---
+- name: Fail if snapshot too old
+  fail:
+    msg: "❌ Snapshot too old: {{ snapshot_age_hours }} hours"
+  when: snapshot_age_hours > 24
+
+- name: OK
+  debug:
+    msg: "✅ Snapshot OK: {{ snapshot_file.stdout }} ({{ snapshot_age_hours }} hours ago)"
