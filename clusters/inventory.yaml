@@ -1,6 +1,5 @@
 all:
   children:
-
     dev_cluster:
       hosts:
         tlnw-dev-ins-mk8s1:

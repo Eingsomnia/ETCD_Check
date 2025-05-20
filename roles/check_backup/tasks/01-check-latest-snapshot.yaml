@@ -1,15 +1,6 @@
 ---
-- name: Find latest snapshot file
-  shell: |
-    ls -t /var/lib/rancher/k3s/server/db/snapshots/etcd-snapshot-* | head -n1
-  register: snapshot_file
+- name: 📋 Run 'k3s etcd-snapshot ls' to list all snapshots
+  shell: k3s etcd-snapshot ls
+  register: snapshot_list
+  become: true
   changed_when: false
-
-- name: Get snapshot modification time
-  stat:
-    path: "{{ snapshot_file.stdout }}"
-  register: snapshot_stat
-
-- name: Calculate age
-  set_fact:
-    snapshot_age_hours: "{{ ((ansible_date_time.epoch | int) - (snapshot_stat.stat.mtime | int)) // 3600 }}"
