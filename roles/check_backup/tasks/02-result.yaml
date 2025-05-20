@@ -1,4 +1,15 @@
----
 - name: ✅ Display ETCD snapshots (line by line)
   debug:
     var: snapshot_list.stdout_lines
+
+- name: 📝 Write snapshot report to GitHub Pages
+  copy:
+    dest: "{{ playbook_dir }}/../docs/etcd_snapshot_{{ inventory_hostname }}.md"
+    content: |
+      # ETCD Snapshot Report - {{ inventory_hostname }}
+
+      | Name | Size | Created |
+      |------|------|---------|
+      {% for line in snapshot_list.stdout_lines[1:] | default([]) %}
+      {{ line | regex_replace('^(\\S+)\\s+\\S+\\s+(\\S+)\\s+(\\S+)$', '| \\1 | \\2 | \\3 |') }}
+      {% endfor %}
